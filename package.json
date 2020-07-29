@@ -14,7 +14,7 @@
     "@codeday/uploader-node": "^1.0.1",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
-    "auth0": "^2.24.0",
+    "auth0": "^2.27.1",
     "axios": "^0.19.2",
     "deepmerge": "^4.2.2",
     "emotion-theming": "^10.0.27",
