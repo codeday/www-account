@@ -35,7 +35,6 @@ const Pronoun = ({ user, onChange }) => {
               w={"auto"} 
               value={custom} 
               onChange={(e) => { 
-                console.log(e) 
                 setCustom(e.target.value); 
                 onChange({ pronoun: e.target.value }); 
                 setSelection(CUSTOM); 
