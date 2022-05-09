@@ -1,6 +1,6 @@
 mutation UpdateUserProfileMutation ($updates: AccountUpdateUserInput!) {
   account {
-    updateUser(updates: $updates)
+    updateUser(updates: $updates, username: "")
   }
 }
 mutation AddRoleWithCodeMutation ($code: String!) {
@@ -11,6 +11,6 @@ mutation AddRoleWithCodeMutation ($code: String!) {
 
 mutation SetDisplayedBadgesMutation ($badges: [AccountDisplayedUserBadgeInput!]) {
   account {
-    setDisplayedBadges(badges: $badges)
+    setDisplayedBadges(badges: $badges, where: {})
   }
 }
