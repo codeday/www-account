@@ -9,7 +9,7 @@ mutation AddRoleWithCodeMutation ($code: String!) {
   }
 }
 
-mutation SetDisplayedBadgesMutation ($badges: [AccountDisplayedUserBadgeInput!]) {
+mutation SetDisplayedBadgesMutation ($badges: [AccountDisplayedBadgeInput!]) {
   account {
     setDisplayedBadges(badges: $badges, where: {})
   }
