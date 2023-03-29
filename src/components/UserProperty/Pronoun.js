@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Input from '@codeday/topo/Atom/Input/Text';
 import FormControl, { Label } from '@codeday/topo/Atom/Form';
 import Text, { Link } from '@codeday/topo/Atom/Text';
+import Box from '@codeday/topo/Atom/Box' 
 import Radio, { Group, Stack } from '@codeday/topo/Atom/Input/Radio';
 
 const CUSTOM = 'custom';
@@ -23,26 +24,28 @@ const Pronoun = ({ user, onChange }) => {
   const defaultRadios = Object.keys(defaultPronouns)
     .map((k) => <Radio key={k} value={k}>{defaultPronouns[k]}</Radio>);
 
-  const customRadio = (
-    <Radio key={CUSTOM} value={CUSTOM}>
-      {
-        custom || selection === CUSTOM
-          ? (
-            <Input
-              value={custom}
-              onChange={(e) => {
-                setSelection(CUSTOM);
-                setCustom(e.target.value);
-                onChange({ pronoun: e.target.value });
-              }}
-            />
-          ) : (
-            <Text color="gray.500" as="span">(other)</Text>
-          )
-      }
-    </Radio>
-  );
-
+    const customRadio = ( 
+      <Box as="span"> 
+        <Radio key={CUSTOM} value={CUSTOM}> 
+          {" "} 
+        </Radio> 
+        { 
+          custom || selection === CUSTOM ? ( 
+            <Input 
+              w={"auto"} 
+              value={custom} 
+              onChange={(e) => { 
+                setCustom(e.target.value); 
+                onChange({ pronoun: e.target.value }); 
+                setSelection(CUSTOM); 
+              }} 
+            /> 
+          ) : ( 
+            <Text color="gray.500" as="span">(other)</Text> 
+          ) 
+        } 
+      </Box> 
+    ); 
   return (
     <FormControl>
       <Label fontWeight="bold">
