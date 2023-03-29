@@ -1,5 +1,13 @@
-mutation AddRole ($code: String!) {
+mutation AddRole($code: String!) {
   account {
     addRoleByCode(where: {}, code: $code)
+  }
+}
+
+query GetAccountProperties {
+  account {
+    getUser(where: {}) {
+      blocked
+    }
   }
 }
