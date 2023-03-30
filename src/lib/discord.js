@@ -1,5 +1,5 @@
 import getConfig from 'next/config';
-import OAuth from 'discord-oauth2'
+import OAuth from 'discord-oauth2';
 
 const { serverRuntimeConfig } = getConfig();
 

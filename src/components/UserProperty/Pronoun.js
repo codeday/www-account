@@ -20,26 +20,28 @@ const Pronoun = ({ user, onChange }) => {
   const [selection, setSelection] = useState(previousWasCustom ? CUSTOM : previousPronoun);
   const [custom, setCustom] = useState(previousWasCustom ? previousPronoun : '');
 
-  const defaultRadios = Object.keys(defaultPronouns)
-    .map((k) => <Radio key={k} value={k}>{defaultPronouns[k]}</Radio>);
+  const defaultRadios = Object.keys(defaultPronouns).map((k) => (
+    <Radio key={k} value={k}>
+      {defaultPronouns[k]}
+    </Radio>
+  ));
 
   const customRadio = (
     <Radio key={CUSTOM} value={CUSTOM}>
-      {
-        custom || selection === CUSTOM
-          ? (
-            <Input
-              value={custom}
-              onChange={(e) => {
-                setSelection(CUSTOM);
-                setCustom(e.target.value);
-                onChange({ pronoun: e.target.value });
-              }}
-            />
-          ) : (
-            <Text color="gray.500" as="span">(other)</Text>
-          )
-      }
+      {custom || selection === CUSTOM ? (
+        <Input
+          value={custom}
+          onChange={(e) => {
+            setSelection(CUSTOM);
+            setCustom(e.target.value);
+            onChange({ pronoun: e.target.value });
+          }}
+        />
+      ) : (
+        <Text color="gray.500" as="span">
+          (other)
+        </Text>
+      )}
     </Radio>
   );
 
@@ -68,9 +70,7 @@ const Pronoun = ({ user, onChange }) => {
           }
         }}
       >
-        <Stack>
-          {[...defaultRadios, customRadio]}
-        </Stack>
+        <Stack>{[...defaultRadios, customRadio]}</Stack>
       </Group>
     </FormControl>
   );

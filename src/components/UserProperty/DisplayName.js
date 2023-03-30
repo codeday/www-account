@@ -24,8 +24,12 @@ const DisplayName = ({ user, onChange }) => {
               {user.familyName ? user.familyName[0].toUpperCase() : 'Last Initial'}
             </Radio>
             <Radio value="given">{user.givenName || 'First Name'}</Radio>
-            <Radio value="short">{user.givenName || 'First Name'} {user.familyName ? user.familyName[0].toUpperCase() : 'Last Initial'}</Radio>
-            <Radio value="full">{user.givenName || 'First Name'} {user.familyName || 'Last Name'}</Radio>
+            <Radio value="short">
+              {user.givenName || 'First Name'} {user.familyName ? user.familyName[0].toUpperCase() : 'Last Initial'}
+            </Radio>
+            <Radio value="full">
+              {user.givenName || 'First Name'} {user.familyName || 'Last Name'}
+            </Radio>
           </Stack>
         </Group>
       </Grid>

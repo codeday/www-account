@@ -19,4 +19,12 @@ module.exports = {
       domain: process.env.AUTH0_DOMAIN,
     },
   },
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.(graphql|gql)$/,
+      exclude: /node_modules/,
+      loader: 'graphql-tag/loader',
+    });
+    return config;
+  },
 };

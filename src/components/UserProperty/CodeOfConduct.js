@@ -6,7 +6,7 @@ import Text, { Link } from '@codeday/topo/Atom/Text';
 import List, { Item } from '@codeday/topo/Atom/List';
 
 const CodeOfConduct = ({ user, onChange }) => {
-  const [checked, setChecked] = useState(user.acceptTos ? true : false);
+  const [checked, setChecked] = useState(!!user.acceptTos);
 
   return (
     <FormControl>
@@ -18,8 +18,11 @@ const CodeOfConduct = ({ user, onChange }) => {
         <Item>Community members may not harass others.</Item>
       </List>
       <Text>
-        The full Code of Conduct is available
-        at <Link href="https://codeday.to/conduct" target="_blank">codeday.to/conduct</Link>.
+        The full Code of Conduct is available at{' '}
+        <Link href="https://codeday.to/conduct" target="_blank">
+          codeday.to/conduct
+        </Link>
+        .
       </Text>
       <Checkbox
         marginTop={3}

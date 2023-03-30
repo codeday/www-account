@@ -3,29 +3,19 @@ import PropTypes from 'prop-types';
 import Input from '@codeday/topo/Atom/Input/Text';
 import Button from '@codeday/topo/Atom/Button';
 import Collapse from '@codeday/topo/Molecule/Collapse';
-import FormControl, { Label, HelpText } from '@codeday/topo/Atom/Form'
+import FormControl, { Label, HelpText } from '@codeday/topo/Atom/Form';
 
 const Volunteer = ({ user, onChange }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [volunteerCode, setVolunteerCode] = useState('');
 
-  if (user.roles.find((role) => role.name === "Mentor" || role.name === "Volunteer")) return <></>;
+  if (user.roles.find((role) => role.name === 'Mentor' || role.name === 'Volunteer')) return <></>;
 
   return (
     <FormControl>
-      <Label fontWeight="bold">
-        {
-          !isVisible
-            ? `Are you a volunteer?`
-            : `What's your volunteer access code?`
-        }
-      </Label>
+      <Label fontWeight="bold">{!isVisible ? `Are you a volunteer?` : `What's your volunteer access code?`}</Label>
       <Collapse in={!isVisible}>
-        <Button
-          size="xs"
-          variant="outline"
-          onClick={() => setIsVisible(true)}
-        >
+        <Button size="xs" variant="outline" onClick={() => setIsVisible(true)}>
           Yes, I&apos;m a volunteer!
         </Button>
       </Collapse>

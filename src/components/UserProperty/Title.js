@@ -17,8 +17,8 @@ const Title = ({ user, onChange }) => {
         }}
       />
       <HelpText>
-        This is usually something like &ldquo;Mentor&rdquo; or just &ldquo;Volunteer&rdquo;. If you have a special
-        title you&apos;ll usually be told this by your manager.
+        This is usually something like &ldquo;Mentor&rdquo; or just &ldquo;Volunteer&rdquo;. If you have a special title
+        you&apos;ll usually be told this by your manager.
       </HelpText>
     </FormControl>
   );

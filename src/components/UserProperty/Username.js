@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Input from '@codeday/topo/Atom/Input/Text';
-import FormControl, { Label, HelpText } from '@codeday/topo/Atom/Form'
+import FormControl, { Label, HelpText } from '@codeday/topo/Atom/Form';
 
 const Username = ({ user, onChange }) => {
   const [username, setUsername] = useState(user.username);
@@ -18,9 +18,7 @@ const Username = ({ user, onChange }) => {
         }}
       />
       <HelpText>
-        {user.username
-          ? `Sorry, you can't change your username.`
-          : `You can't change this later, so choose wisely!`}
+        {user.username ? `Sorry, you can't change your username.` : `You can't change this later, so choose wisely!`}
       </HelpText>
     </FormControl>
   );

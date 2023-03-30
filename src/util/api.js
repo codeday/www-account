@@ -17,7 +17,7 @@ export async function tryAuthenticatedApiQuery(gql, params, token) {
 
 export async function tryAuthenticatedServerApiQuery(gql, params, token) {
   const headers = {
-    'Authorization': `Bearer ${token}`,
+    Authorization: `Bearer ${token}`,
   };
 
   try {
