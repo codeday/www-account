@@ -1,15 +1,12 @@
-import getConfig from 'next/config';
 import jwt from 'jsonwebtoken';
 import phone from 'phone';
 import { UpdateUserProfileMutation, SetDisplayedBadgesMutation, AddRoleWithCodeMutation } from './update.gql';
 import { tryAuthenticatedApiQuery } from '../../util/api';
 
-const { serverRuntimeConfig } = getConfig();
-
 export default async (req, res) => {
   const token = req && req.query && req.query.token;
   const { body } = req;
-  const userId = jwt.verify(token, serverRuntimeConfig.auth0.hookSharedSecret).id;
+  const userId = jwt.verify(token, process.env.AUTH0_HOOK_SHARED_SECRET).id;
 
   if (!userId) {
     return res

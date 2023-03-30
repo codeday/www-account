@@ -6,6 +6,10 @@ kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
+[build.args]
+  NEXT_PUBLIC_APP_URL="https://account.codeday.org"
+  NEXT_PUBLIC_AUTH0_DOMAIN="auth.codeday.org"
+
 [env]
 
 [experimental]

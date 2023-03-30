@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import getConfig from 'next/config';
 import Head from 'next/head';
 import { Box, Text, Link } from '@codeday/topo/Atom';
 // import PartyPopper from '@codeday/topocons/Emoji/Objects/PartyPopper';
@@ -74,17 +73,16 @@ Missing.propTypes = {
 export default Missing;
 
 export const getServerSideProps = async ({ req, query }) => {
-  const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
   const jwtUser = userFromJwt(query.token);
 
-  const token = jwt.sign({ id: jwtUser?.sub }, serverRuntimeConfig.auth0.hookSharedSecret);
+  const token = jwt.sign({ id: jwtUser?.sub }, process.env.AUTH0_HOOK_SHARED_SECRET);
   const { result, error } = await tryAuthenticatedApiQuery(MissingUserQuery, { id: jwtUser.sub }, token);
   if (error) return { props: {} };
   return {
     props: {
       user: result.account.getUser,
       state: query.state,
-      domain: publicRuntimeConfig?.auth0?.domain,
+      domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN,
       token,
       cookies: req.headers.cookie,
     },

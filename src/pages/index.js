@@ -4,7 +4,6 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Heading, Divider, Button, Box, Link } from '@codeday/topo/Atom';
 import merge from 'deepmerge';
-import getConfig from 'next/config';
 import jwt from 'jsonwebtoken';
 import { getSession, signIn } from 'next-auth/client';
 import { useColorMode } from '@codeday/topo/Theme';
@@ -14,8 +13,6 @@ import { IndexUserQuery } from './index.gql';
 import WelcomeHeader from '../components/WelcomeHeader';
 import Page from '../components/Page';
 import { tryAuthenticatedApiQuery } from '../util/api';
-
-const { serverRuntimeConfig } = getConfig();
 
 export default function Home({ user, token, logIn }) {
   const [changes, setChanges] = useState({});
@@ -98,7 +95,7 @@ export async function getServerSideProps({ req }) {
   if (!session || !session.user) {
     return { props: { logIn: true } };
   }
-  const token = jwt.sign({ id: session.user?.id }, serverRuntimeConfig.auth0.hookSharedSecret);
+  const token = jwt.sign({ id: session.user?.id }, process.env.AUTH0_HOOK_SHARED_SECRET);
   const { result, error } = await tryAuthenticatedApiQuery(IndexUserQuery, {}, token);
   console.log(error);
   if (error) return { props: {} };

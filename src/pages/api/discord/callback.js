@@ -1,12 +1,9 @@
 /* eslint-disable no-console */
 import { getSession } from 'next-auth/client';
 import jwt from 'jsonwebtoken';
-import getConfig from 'next/config';
 import { LinkDiscordMutation, CheckCodeDayLinked } from './discord.gql';
 import { tryAuthenticatedServerApiQuery } from '../../../util/api';
 import { discordApi } from '../../../lib/discord';
-
-const { serverRuntimeConfig } = getConfig();
 
 export default async (req, res) => {
   const { code } = req.query;
@@ -22,7 +19,7 @@ export default async (req, res) => {
     return;
   }
   const userId = await (await getSession({ req })).user.id;
-  const token = jwt.sign({ scopes: 'write:users' }, serverRuntimeConfig.gqlAccountSecret, { expiresIn: '1m' });
+  const token = jwt.sign({ scopes: 'write:users' }, process.env.GRAPH_SECRET, { expiresIn: '1m' });
   await tryAuthenticatedServerApiQuery(LinkDiscordMutation, { discordId, userId }, token);
   res.redirect(`/discord/success`);
 };

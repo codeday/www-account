@@ -1,6 +1,14 @@
 .env
 .env.*
-.next/
 .eslint*
 README.md
-node_modules/
+Dockerfile
+.dockerignore
+node_modules
+npm-debug.log
+.next
+.git
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

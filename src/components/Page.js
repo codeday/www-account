@@ -4,9 +4,6 @@ import { Door } from '@codeday/topocons';
 import { Button, Box, Divider, Text, CodeDay, Link } from '@codeday/topo/Atom';
 import { Header, Menu, SiteLogo } from '@codeday/topo/Organism';
 import { signOut } from 'next-auth/client';
-import getConfig from 'next/config';
-
-const { publicRuntimeConfig } = getConfig();
 
 const Page = ({ children, isLoggedIn }) => {
   return (
@@ -35,7 +32,7 @@ const Page = ({ children, isLoggedIn }) => {
           </SiteLogo>
           <Menu>
             {isLoggedIn && (
-              <Button onClick={() => signOut({ callbackUrl: `${publicRuntimeConfig.appUrl}/logout` })}>
+              <Button onClick={() => signOut({ callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}/logout` })}>
                 <Door />
               </Button>
             )}

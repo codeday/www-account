@@ -1,17 +1,14 @@
 /* eslint-disable no-param-reassign */
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
-import getConfig from 'next/config';
-
-const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 
 const options = {
   providers: [
     Providers.Auth0({
-      clientId: serverRuntimeConfig.auth0.clientId,
-      clientSecret: serverRuntimeConfig.auth0.clientSecret,
-      domain: publicRuntimeConfig.auth0.domain,
-      authorizationUrl: `https://${publicRuntimeConfig.auth0.domain}/authorize?response_type=code&prompt=login`,
+      clientId: process.env.AUTH0_CLIENT_ID,
+      clientSecret: process.env.AUTH0_CLIENT_SECRET,
+      domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN,
+      authorizationUrl: `https://${process.env.NEXT_PUBLIC_AUTH0_DOMAIN}/authorize?response_type=code&prompt=login`,
     }),
   ],
   session: {
