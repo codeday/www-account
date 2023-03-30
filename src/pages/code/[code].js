@@ -1,8 +1,7 @@
 import React from 'react';
 import getConfig from 'next/config';
 import Head from 'next/head';
-import Text from '@codeday/topo/Atom/Text';
-import Button from '@codeday/topo/Atom/Button';
+import { Text, Button } from '@codeday/topo/Atom';
 import { getSession, signIn } from 'next-auth/client';
 import jwt from 'jsonwebtoken';
 import Page from '../../components/Page';
@@ -40,7 +39,7 @@ export const getServerSideProps = async ({ req, params }) => {
     props: {
       errorMessage,
       success,
-      cookies: req.headers.cookie ?? '',
+      cookies: req.headers.cookie,
     },
   };
 };

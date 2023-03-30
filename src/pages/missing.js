@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import getConfig from 'next/config';
 import Head from 'next/head';
-import Box from '@codeday/topo/Atom/Box';
-import Text from '@codeday/topo/Atom/Text';
-import PartyPopper from '@codeday/topocons/Emoji/Objects/PartyPopper';
+import { Box, Text, Link } from '@codeday/topo/Atom';
+// import PartyPopper from '@codeday/topocons/Emoji/Objects/PartyPopper';
 import merge from 'deepmerge';
 import jwt from 'jsonwebtoken';
-import Link from '@codeday/topo/Atom/Text/Link';
 import Page from '../components/Page';
 import ProfileBlocks from '../components/UserProperties';
 import SubmitUpdates from '../components/SubmitUpdates';
@@ -45,7 +43,7 @@ const Missing = ({ user, state, domain, token }) => {
         <title>Missing Info ~ CodeDay Account</title>
       </Head>
       <Text marginTop={0}>
-        <PartyPopper /> Welcome to the CodeDay community,{' '}
+        🎉 Welcome to the CodeDay community,{' '}
         <Text as="span" bold>
           {user.name}!
         </Text>{' '}
@@ -88,7 +86,7 @@ export const getServerSideProps = async ({ req, query }) => {
       state: query.state,
       domain: publicRuntimeConfig?.auth0?.domain,
       token,
-      cookies: req.headers.cookie ?? '',
+      cookies: req.headers.cookie,
     },
   };
 };

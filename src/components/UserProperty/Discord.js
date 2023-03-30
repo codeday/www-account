@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import FormControl, { Label, HelpText } from '@codeday/topo/Atom/Form';
-import Image from '@codeday/topo/Atom/Image';
-import Box from '@codeday/topo/Atom/Box';
-import Text from '@codeday/topo/Atom/Text';
-import Button from '@codeday/topo/Atom/Button';
-import { useRouter } from 'next/router';
-import { useToasts } from '@codeday/topo/utils';
-import Link from '@codeday/topo/Atom/Text/Link';
-import Popover, {
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  Image,
+  Box,
+  Text,
+  Button,
+  Link,
+  Popover,
   PopoverTrigger,
   PopoverArrow,
   PopoverContent,
   PopoverHeader,
   PopoverCloseButton,
   PopoverBody,
-} from '@codeday/topo/Atom/Popover';
+} from '@codeday/topo/Atom';
+import { useRouter } from 'next/router';
+import { useToasts } from '@codeday/topo/utils';
 import { tryAuthenticatedApiQuery } from '../../util/api';
 import { UnlinkDiscordMutation } from './Discord.gql';
 
@@ -35,7 +38,7 @@ const Discord = ({ user, token }) => {
 
   return (
     <FormControl>
-      <Label fontWeight="bold">Discord Information</Label>
+      <FormLabel fontWeight="bold">Discord Information</FormLabel>
       {isLinked ? (
         <Box>
           <Box style={{ clear: 'both', display: 'flex', alignItems: 'center' }}>
@@ -71,18 +74,18 @@ const Discord = ({ user, token }) => {
               </PopoverBody>
             </PopoverContent>
           </Popover>
-          <HelpText>
+          <FormHelperText>
             Your account is linked and ready! Make sure you are in the{' '}
             <Link href="https://discord.gg/codeday">CodeDay Discord Server</Link>!
-          </HelpText>
+          </FormHelperText>
         </Box>
       ) : (
         <Box>
           <Button onClick={() => router.push('/api/discord/link')}>Link Discord</Button>
-          <HelpText>
+          <FormHelperText>
             Link your Discord account to get full access to the{' '}
             <Link href="https://discord.gg/codeday">CodeDay Discord Server</Link>.
-          </HelpText>
+          </FormHelperText>
         </Box>
       )}
     </FormControl>

@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Grid } from '@codeday/topo/Atom/Box';
-import Radio, { Group, Stack } from '@codeday/topo/Atom/Input/Radio';
-import FormControl, { Label } from '@codeday/topo/Atom/Form';
+import { Grid, Radio, RadioGroup, Stack, FormControl, FormLabel } from '@codeday/topo/Atom';
 
 const DisplayName = ({ user, onChange }) => {
   const [displayNameFormat, setDisplayNameFormat] = useState(user.displayNameFormat);
 
   return (
     <FormControl>
-      <Label fontWeight="bold">How would you like your name displayed in public?</Label>
+      <FormLabel fontWeight="bold">How would you like your name displayed in public?</FormLabel>
       <Grid templateColumns="1fr 1fr" gap={2}>
-        <Group
+        <RadioGroup
           value={displayNameFormat}
           onChange={(e) => {
             setDisplayNameFormat(e);
@@ -31,7 +29,7 @@ const DisplayName = ({ user, onChange }) => {
               {user.givenName || 'First Name'} {user.familyName || 'Last Name'}
             </Radio>
           </Stack>
-        </Group>
+        </RadioGroup>
       </Grid>
     </FormControl>
   );

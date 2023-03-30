@@ -1,14 +1,11 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Heading } from '@codeday/topo/Atom/Text';
-import Divider from '@codeday/topo/Atom/Divider';
+import { Heading, Divider, Button, Box, Link } from '@codeday/topo/Atom';
 import merge from 'deepmerge';
-import Button from '@codeday/topo/Atom/Button';
-import Box from '@codeday/topo/Atom/Box';
 import getConfig from 'next/config';
 import jwt from 'jsonwebtoken';
-import Link from '@codeday/topo/Atom/Text/Link';
 import { getSession, signIn } from 'next-auth/client';
 import { useColorMode } from '@codeday/topo/Theme';
 import SubmitUpdates from '../components/SubmitUpdates';
@@ -21,13 +18,17 @@ import { tryAuthenticatedApiQuery } from '../util/api';
 const { serverRuntimeConfig } = getConfig();
 
 export default function Home({ user, token, logIn }) {
-  const { colorMode, toggleColorMode } = useColorMode();
   const [changes, setChanges] = useState({});
   const router = useRouter();
-  const onSubmit = () => {
-    router.replace(router.asPath);
-    setChanges({});
-  };
+  const { colorMode, toggleColorMode } = useColorMode();
+
+  if (logIn) {
+    return (
+      <Page>
+        <Button onClick={() => signIn('auth0')}>Sign in to CodeDay</Button>
+      </Page>
+    );
+  }
   // @ts-ignore
   if (!user || !user.roles) {
     return (
@@ -37,13 +38,10 @@ export default function Home({ user, token, logIn }) {
       </Page>
     );
   }
-  if (logIn) {
-    return (
-      <Page>
-        <Button onClick={() => signIn('auth0')}>Sign in to CodeDay</Button>
-      </Page>
-    );
-  }
+  const onSubmit = () => {
+    router.replace(router.asPath);
+    setChanges({});
+  };
 
   return (
     <Page slug="/" isLoggedIn>
@@ -109,7 +107,7 @@ export async function getServerSideProps({ req }) {
     props: {
       user: result?.account?.getUser || null,
       token,
-      cookies: req.headers.cookie ?? '',
+      cookies: req.headers.cookie,
     },
   };
 }

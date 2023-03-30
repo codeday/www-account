@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import merge from 'deepmerge';
-import Button from '@codeday/topo/Atom/Button';
+import { Button } from '@codeday/topo/Atom';
 import { useToasts } from '@codeday/topo/utils';
 import { submitUserChanges } from '../util/profile';
 
@@ -19,12 +19,11 @@ const hasRequired = (required, user, changes) => {
 
 const SubmitUpdates = ({ changes, user, required, onSubmit, token }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const { success, error, info } = useToasts();
+  const { success, error } = useToasts();
   const { _meta, ...cleanChanges } = changes;
   return (
     <Button
-      bg="success.bg"
-      textColor="white"
+      colorScheme="green"
       isDisabled={!cleanChanges || Object.keys(cleanChanges).length === 0 || !hasRequired(required, user, cleanChanges)}
       isLoading={isLoading}
       onClick={async () => {

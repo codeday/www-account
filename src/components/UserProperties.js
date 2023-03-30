@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import merge from 'deepmerge';
-import Box from '@codeday/topo/Atom/Box';
+import { Box } from '@codeday/topo/Atom';
 import getPropertyComponents from './UserProperty';
 
 const UserProperties = ({ user, fields, onChange, token }) => {

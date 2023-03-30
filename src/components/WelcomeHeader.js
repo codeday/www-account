@@ -1,15 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@codeday/topo/Atom/Button';
-import Text from '@codeday/topo/Atom/Text';
-import WavingHand from '@codeday/topocons/Emoji/People/WavingHand';
-import Box from '@codeday/topo/Atom/Box';
+import { Button, Text, Box } from '@codeday/topo/Atom';
 
 const WelcomeHeader = ({ user }) => {
   return (
     <Box>
       <Text>
-        <WavingHand /> Welcome back,&nbsp;
+        👋 Welcome back,&nbsp;
         <Text bold as="span">
           {user.givenName}
           {user.roles.length > 0 ? ' ' : ''}

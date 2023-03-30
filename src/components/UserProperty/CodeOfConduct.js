@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Checkbox from '@codeday/topo/Atom/Input/Checkbox';
-import FormControl, { Label, HelpText } from '@codeday/topo/Atom/Form';
-import Text, { Link } from '@codeday/topo/Atom/Text';
-import List, { Item } from '@codeday/topo/Atom/List';
+import { Checkbox, FormControl, FormLabel, FormHelperText, Text, Link, List, ListItem } from '@codeday/topo/Atom';
 
 const CodeOfConduct = ({ user, onChange }) => {
   const [checked, setChecked] = useState(!!user.acceptTos);
 
   return (
     <FormControl>
-      <Label fontWeight="bold">Help us help you help us all:</Label>
+      <FormLabel fontWeight="bold">Help us help you help us all:</FormLabel>
       <Text>To make our community as welcoming as possible, we need your help:</Text>
       <List styleType="disc">
-        <Item>Please be friendly and welcoming.</Item>
-        <Item>Keep things safe and legal.</Item>
-        <Item>Community members may not harass others.</Item>
+        <ListItem>Please be friendly and welcoming.</ListItem>
+        <ListItem>Keep things safe and legal.</ListItem>
+        <ListItem>Community members may not harass others.</ListItem>
       </List>
       <Text>
         The full Code of Conduct is available at{' '}
@@ -35,10 +32,10 @@ const CodeOfConduct = ({ user, onChange }) => {
       >
         I agree to the Code of Conduct
       </Checkbox>
-      <HelpText>
+      <FormHelperText>
         If you ever have a problem with another member of the community, you can talk to any member of our staff, or
         email us. More info on how to reach us is available at codeday.to/conduct.
-      </HelpText>
+      </FormHelperText>
     </FormControl>
   );
 };

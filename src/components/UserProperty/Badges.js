@@ -1,18 +1,20 @@
 /* eslint-disable no-param-reassign */
 import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
-import { Grid } from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import FormControl, { Label } from '@codeday/topo/Atom/Form';
-import Tooltip from '@codeday/topo/Atom/Tooltip';
-import Popover, {
+import {
+  Grid,
+  Button,
+  Tooltip,
+  FormControl,
+  FormLabel,
+  Popover,
   PopoverTrigger,
   PopoverArrow,
   PopoverContent,
   PopoverHeader,
   PopoverCloseButton,
   PopoverBody,
-} from '@codeday/topo/Atom/Popover';
+} from '@codeday/topo/Atom';
 
 function areEqual(newProps, prevProps) {
   return JSON.stringify(newProps.user.badges) === JSON.stringify(prevProps.user.badges);
@@ -51,7 +53,7 @@ const Badges = React.memo(({ user, onChange }) => {
 
   return (
     <FormControl>
-      <Label fontWeight="bold">Which badges would you like to be displayed?</Label>
+      <FormLabel fontWeight="bold">Which badges would you like to be displayed?</FormLabel>
       <Grid templateColumns="repeat(3, 1fr)" gap="5px" width="fit-content">
         {displayedBadges.map((displayedBadge, index) =>
           displayedBadge.displayed ? (

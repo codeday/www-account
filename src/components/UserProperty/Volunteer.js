@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Input from '@codeday/topo/Atom/Input/Text';
-import Button from '@codeday/topo/Atom/Button';
-import Collapse from '@codeday/topo/Molecule/Collapse';
-import FormControl, { Label, HelpText } from '@codeday/topo/Atom/Form';
+import { TextInput, Button, FormControl, FormLabel, FormHelperText } from '@codeday/topo/Atom';
+import { Collapse } from '@codeday/topo/Molecule';
 
 const Volunteer = ({ user, onChange }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -13,21 +11,23 @@ const Volunteer = ({ user, onChange }) => {
 
   return (
     <FormControl>
-      <Label fontWeight="bold">{!isVisible ? `Are you a volunteer?` : `What's your volunteer access code?`}</Label>
+      <FormLabel fontWeight="bold">
+        {!isVisible ? `Are you a volunteer?` : `What's your volunteer access code?`}
+      </FormLabel>
       <Collapse in={!isVisible}>
         <Button size="xs" variant="outline" onClick={() => setIsVisible(true)}>
           Yes, I&apos;m a volunteer!
         </Button>
       </Collapse>
       <Collapse in={isVisible}>
-        <Input
+        <TextInput
           value={volunteerCode}
           onChange={(e) => {
             setVolunteerCode(e.target.value);
             onChange({ addRole: e.target.value });
           }}
         />
-        <HelpText>You can get this from your staff contact.</HelpText>
+        <FormHelperText>You can get this from your staff contact.</FormHelperText>
       </Collapse>
     </FormControl>
   );

@@ -1,9 +1,7 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import Image from '@codeday/topo/Atom/Image';
-import Spinner from '@codeday/topo/Atom/Spinner';
+import { Image, Spinner, FormControl, FormLabel, FormHelperText, TextInput } from '@codeday/topo/Atom';
 import { useToasts } from '@codeday/topo/utils';
-import FormControl, { Label, HelpText } from '@codeday/topo/Atom/Form';
 import { tryAuthenticatedApiQuery } from '../../util/api';
 import { UserPictureMutation } from './Picture.gql';
 
@@ -24,13 +22,13 @@ const Picture = ({ user, onChange, token }) => {
 
   return (
     <FormControl>
-      <Label fontWeight="bold">Show us what you look like!</Label>
+      <FormLabel fontWeight="bold">Show us what you look like!</FormLabel>
       {uploading ? (
         <Spinner />
       ) : (
         <>
           <Image src={pictureUrl} rounded="full" height="100px" onClick={() => uploaderRef.current.click()} />
-          <input
+          <TextInput
             type="file"
             ref={uploaderRef}
             accept="image/*"
@@ -81,7 +79,9 @@ const Picture = ({ user, onChange, token }) => {
           />
         </>
       )}
-      <HelpText>Upload a picture of yourself if you&apos;d like. Max 2MB, and it will be cropped to a square.</HelpText>
+      <FormHelperText>
+        Upload a picture of yourself if you&apos;d like. Max 2MB, and it will be cropped to a square.
+      </FormHelperText>
     </FormControl>
   );
 };

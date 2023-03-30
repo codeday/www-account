@@ -1,12 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Door from '@codeday/topocons/Icon/Door';
-import Button from '@codeday/topo/Atom/Button';
-import Box from '@codeday/topo/Atom/Box';
-import Divider from '@codeday/topo/Atom/Divider';
-import { CodeDay } from '@codeday/topo/Atom/Logo';
-import Text from '@codeday/topo/Atom/Text';
-import Header, { Menu, SiteLogo } from '@codeday/topo/Organism/Header';
+import { Door } from '@codeday/topocons';
+import { Button, Box, Divider, Text, CodeDay, Link } from '@codeday/topo/Atom';
+import { Header, Menu, SiteLogo } from '@codeday/topo/Organism';
 import { signOut } from 'next-auth/client';
 import getConfig from 'next/config';
 
@@ -21,7 +17,7 @@ const Page = ({ children, isLoggedIn }) => {
             <a href="https://www.codeday.org/">
               <CodeDay withText />
             </a>
-            <a href="/">
+            <Link href="/">
               <Text
                 as="span"
                 d="inline"
@@ -35,7 +31,7 @@ const Page = ({ children, isLoggedIn }) => {
               >
                 Account
               </Text>
-            </a>
+            </Link>
           </SiteLogo>
           <Menu>
             {isLoggedIn && (

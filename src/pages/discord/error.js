@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '@codeday/topo/Atom/Button';
+import { Button } from '@codeday/topo/Atom';
 import Page from '../../components/Page';
 
 const DiscordError = ({ message }) => {
@@ -20,7 +20,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
     return {
       props: {
         message: 'ERROR: That Discord account is already linked to a CodeDay account!',
-        cookies: req.headers.cookie ?? '',
+        cookies: req.headers.cookie,
       },
     };
   }
@@ -28,7 +28,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
     return {
       props: {
         message: 'ERROR: Your CodeDay account is already linked to a Discord account!',
-        cookies: req.headers.cookie ?? '',
+        cookies: req.headers.cookie,
       },
     };
   }

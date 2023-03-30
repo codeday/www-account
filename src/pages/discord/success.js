@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '@codeday/topo/Atom/Button';
+import { Button } from '@codeday/topo/Atom';
 import Page from '../../components/Page';
 
 export default () => (
