@@ -1,15 +1,13 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import Image from '@codeday/topo/Atom/Image';
-import Spinner from '@codeday/topo/Atom/Spinner';
+import { Image, Spinner, FormControl, FormLabel, FormHelperText, TextInput } from '@codeday/topo/Atom';
 import { useToasts } from '@codeday/topo/utils';
-import FormControl, { Label, HelpText } from '@codeday/topo/Atom/Form'
 import { tryAuthenticatedApiQuery } from '../../util/api';
-import { UserPictureMutation } from "./Picture.gql"
+import { UserPictureMutation } from './Picture.gql';
 
 const uploadPicture = async (file, token) => {
-  const { result, error } = await tryAuthenticatedApiQuery(UserPictureMutation, { upload: file }, token)
-  return !error ? { url: result?.account?.uploadProfilePicture } : { error }
+  const { result, error } = await tryAuthenticatedApiQuery(UserPictureMutation, { upload: file }, token);
+  return !error ? { url: result?.account?.uploadProfilePicture } : { error };
 };
 
 const WARN_FILE_SIZE = 1024 * 1024 * 5;
@@ -24,66 +22,66 @@ const Picture = ({ user, onChange, token }) => {
 
   return (
     <FormControl>
-      <Label fontWeight="bold">Show us what you look like!</Label>
-      {uploading
-        ? (
-          <Spinner />
-        ) : (
-          <>
-            <Image
-              src={pictureUrl}
-              rounded="full"
-              height="100px"
-              onClick={() => uploaderRef.current.click()}
-            />
-            <input
-              type="file"
-              ref={uploaderRef}
-              accept="image/*"
-              style={{ display: 'none' }}
-              onChange={async (e) => {
-                const file = e.target.files[0];
+      <FormLabel fontWeight="bold">Show us what you look like!</FormLabel>
+      {uploading ? (
+        <Spinner />
+      ) : (
+        <>
+          <Image src={pictureUrl} rounded="full" height="100px" onClick={() => uploaderRef.current.click()} />
+          <TextInput
+            type="file"
+            ref={uploaderRef}
+            accept="image/*"
+            style={{ display: 'none' }}
+            onChange={async (e) => {
+              const file = e.target.files[0];
 
-                if (!file) return;
+              if (!file) return;
 
-                // Is the file supported?
-                let type = null;
-                if (MIME_IMAGE.includes(file.type)) type = 'IMAGE';
-                if (!type) {
-                  error('Only images are supported.');
-                  return;
-                }
+              // Is the file supported?
+              let type = null;
+              if (MIME_IMAGE.includes(file.type)) type = 'IMAGE';
+              if (!type) {
+                error('Only images are supported.');
+                return;
+              }
 
-                // Is the file really big.
-                if (file.size > MAX_FILE_SIZE) {
-                  error(`You might have a problem uploading files larger than ${Math.floor(MAX_FILE_SIZE / (1024 * 1024))}MB`);
-                }
+              // Is the file really big.
+              if (file.size > MAX_FILE_SIZE) {
+                error(
+                  `You might have a problem uploading files larger than ${Math.floor(MAX_FILE_SIZE / (1024 * 1024))}MB`,
+                );
+              }
 
-                var reader = new FileReader();
-                reader.onload = function(el) {
-                  setPictureUrl(el.target.result)
-                }
-                reader.readAsDataURL(file);
+              const reader = new FileReader();
+              reader.onload = function (el) {
+                setPictureUrl(el.target.result);
+              };
+              reader.readAsDataURL(file);
 
-                if (file.size > WARN_FILE_SIZE) {
-                  info(`Your file is uploading, but at ${Math.floor(file.size / (1024 * 1024))}MB, it might take a while.`);
-                } else {
-                  info(`Your file is uploading.`);
-                }
-                try {
-                  const result = await uploadPicture(file, token);
-                  success("Picture uploaded!")
-                  setPictureUrl(result.url);
-                } catch (err) {
-                  console.error(err);
-                  setUploading(false);
-                }
+              if (file.size > WARN_FILE_SIZE) {
+                info(
+                  `Your file is uploading, but at ${Math.floor(file.size / (1024 * 1024))}MB, it might take a while.`,
+                );
+              } else {
+                info(`Your file is uploading.`);
+              }
+              try {
+                const result = await uploadPicture(file, token);
+                success('Picture uploaded!');
+                setPictureUrl(result.url);
+              } catch (err) {
+                console.error(err);
                 setUploading(false);
-              }}
-            />
-          </>
-        )}
-      <HelpText>Upload a picture of yourself if you&apos;d like. Max 2MB, and it will be cropped to a square.</HelpText>
+              }
+              setUploading(false);
+            }}
+          />
+        </>
+      )}
+      <FormHelperText>
+        Upload a picture of yourself if you&apos;d like. Max 2MB, and it will be cropped to a square.
+      </FormHelperText>
     </FormControl>
   );
 };

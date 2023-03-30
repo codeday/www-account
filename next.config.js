@@ -1,4 +1,6 @@
-module.exports = {
+const { withTopo } = require('@codeday/topo/Next');
+
+module.exports = withTopo({
   serverRuntimeConfig: {
     auth0: {
       clientId: process.env.AUTH0_CLIENT_ID,
@@ -19,4 +21,12 @@ module.exports = {
       domain: process.env.AUTH0_DOMAIN,
     },
   },
-};
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.(graphql|gql)$/,
+      exclude: /node_modules/,
+      loader: 'graphql-tag/loader',
+    });
+    return config;
+  },
+});

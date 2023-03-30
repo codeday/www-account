@@ -4,7 +4,7 @@ export default async (id) => {
   const [user, roles, enrollments] = await Promise.all([
     managementApi.getUser({ id }), // Get the latest profile (OAuth only returns the profile at login)
     (await managementApi.getUserRoles({ id })).map((role) => role.name),
-    (await managementApi.getGuardianEnrollments({ id })),
+    await managementApi.getGuardianEnrollments({ id }),
   ]);
 
   user.roles = {

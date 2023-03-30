@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Input from '@codeday/topo/Atom/Input/Text';
-import FormControl, { Label } from '@codeday/topo/Atom/Form';
-import Text, { Link } from '@codeday/topo/Atom/Text';
-import Radio, { Group, Stack } from '@codeday/topo/Atom/Input/Radio';
+import { TextInput, Radio, RadioGroup, Stack, Text, Link, FormControl, FormLabel } from '@codeday/topo/Atom';
 
 const CUSTOM = 'custom';
 const defaultPronouns = {
@@ -20,32 +17,34 @@ const Pronoun = ({ user, onChange }) => {
   const [selection, setSelection] = useState(previousWasCustom ? CUSTOM : previousPronoun);
   const [custom, setCustom] = useState(previousWasCustom ? previousPronoun : '');
 
-  const defaultRadios = Object.keys(defaultPronouns)
-    .map((k) => <Radio key={k} value={k}>{defaultPronouns[k]}</Radio>);
+  const defaultRadios = Object.keys(defaultPronouns).map((k) => (
+    <Radio key={k} value={k}>
+      {defaultPronouns[k]}
+    </Radio>
+  ));
 
   const customRadio = (
     <Radio key={CUSTOM} value={CUSTOM}>
-      {
-        custom || selection === CUSTOM
-          ? (
-            <Input
-              value={custom}
-              onChange={(e) => {
-                setSelection(CUSTOM);
-                setCustom(e.target.value);
-                onChange({ pronoun: e.target.value });
-              }}
-            />
-          ) : (
-            <Text color="gray.500" as="span">(other)</Text>
-          )
-      }
+      {custom || selection === CUSTOM ? (
+        <TextInput
+          value={custom}
+          onChange={(e) => {
+            setSelection(CUSTOM);
+            setCustom(e.target.value);
+            onChange({ pronoun: e.target.value });
+          }}
+        />
+      ) : (
+        <Text color="gray.500" as="span">
+          (other)
+        </Text>
+      )}
     </Radio>
   );
 
   return (
     <FormControl>
-      <Label fontWeight="bold">
+      <FormLabel fontWeight="bold">
         Which pronouns do you use?&nbsp;
         <Link
           color="gray.700"
@@ -55,8 +54,8 @@ const Pronoun = ({ user, onChange }) => {
         >
           <sup>(what&apos;s this?)</sup>
         </Link>
-      </Label>
-      <Group
+      </FormLabel>
+      <RadioGroup
         value={selection}
         onChange={(e) => {
           const newSelection = e;
@@ -68,10 +67,8 @@ const Pronoun = ({ user, onChange }) => {
           }
         }}
       >
-        <Stack>
-          {[...defaultRadios, customRadio]}
-        </Stack>
-      </Group>
+        <Stack>{[...defaultRadios, customRadio]}</Stack>
+      </RadioGroup>
     </FormControl>
   );
 };

@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Input from '@codeday/topo/Atom/Input/Text';
-import FormControl, { Label, HelpText } from '@codeday/topo/Atom/Form'
+import { TextInput, FormControl, FormLabel, FormHelperText } from '@codeday/topo/Atom';
 
 const Username = ({ user, onChange }) => {
   const [username, setUsername] = useState(user.username);
   return (
     <FormControl>
-      <Label fontWeight="bold">Username</Label>
-      <Input
+      <FormLabel fontWeight="bold">Username</FormLabel>
+      <TextInput
         value={username}
         isDisabled={user.username}
         onChange={(e) => {
@@ -17,11 +16,9 @@ const Username = ({ user, onChange }) => {
           onChange({ username: sanitizedUsername });
         }}
       />
-      <HelpText>
-        {user.username
-          ? `Sorry, you can't change your username.`
-          : `You can't change this later, so choose wisely!`}
-      </HelpText>
+      <FormHelperText>
+        {user.username ? `Sorry, you can't change your username.` : `You can't change this later, so choose wisely!`}
+      </FormHelperText>
     </FormControl>
   );
 };

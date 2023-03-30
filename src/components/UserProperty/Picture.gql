@@ -1,4 +1,4 @@
-mutation UserPictureMutation ($upload: Upload!) {
+mutation UserPictureMutation($upload: Upload!) {
   account {
     uploadProfilePicture(upload: $upload)
   }

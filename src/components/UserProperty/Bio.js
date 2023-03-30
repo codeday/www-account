@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Textarea from '@codeday/topo/Atom/Input/Textarea';
-import FormControl, { Label, HelpText } from '@codeday/topo/Atom/Form'
+import { FormLabel, FormHelperText, Textarea, FormControl } from '@codeday/topo/Atom';
 
 const Bio = ({ user, onChange }) => {
   const [bio, setBio] = useState(user.bio);
   return (
     <FormControl>
-      <Label fontWeight="bold">Share a bio?</Label>
+      <FormLabel fontWeight="bold">Share a bio?</FormLabel>
       <Textarea
         value={bio}
         onChange={(e) => {
@@ -15,9 +14,7 @@ const Bio = ({ user, onChange }) => {
           onChange({ bio: e.target.value });
         }}
       />
-      <HelpText>
-        This is sometimes displayed when you&apos;re listed on our websites.
-      </HelpText>
+      <FormHelperText>This is sometimes displayed when you&apos;re listed on our websites.</FormHelperText>
     </FormControl>
   );
 };

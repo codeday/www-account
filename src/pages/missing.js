@@ -2,22 +2,28 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import getConfig from 'next/config';
 import Head from 'next/head';
-import Box from '@codeday/topo/Atom/Box';
-import Text from '@codeday/topo/Atom/Text';
-import PartyPopper from '@codeday/topocons/Emoji/Objects/PartyPopper';
+import { Box, Text, Link } from '@codeday/topo/Atom';
+// import PartyPopper from '@codeday/topocons/Emoji/Objects/PartyPopper';
+import merge from 'deepmerge';
+import jwt from 'jsonwebtoken';
 import Page from '../components/Page';
 import ProfileBlocks from '../components/UserProperties';
 import SubmitUpdates from '../components/SubmitUpdates';
 import { userFromJwt } from '../util/profile';
 import { tryAuthenticatedApiQuery } from '../util/api';
-import { MissingUserQuery } from './missing.gql'
-import merge from 'deepmerge';
-import jwt from 'jsonwebtoken';
-import Link from '@codeday/topo/Atom/Text/Link';
-
+import { MissingUserQuery } from './missing.gql';
 
 const Missing = ({ user, state, domain, token }) => {
-  if (!user || !user.roles) return <Page>We couldn't fetch your data! Please refresh the page and try again. If the error persists contact us at <Link href="https://www.codeday.org/contact">codeday.org/contact</Link>.</Page>
+  const [changes, setChanges] = useState({});
+
+  if (!user || !user.roles) {
+    return (
+      <Page>
+        {"We couldn't fetch your data! Please refresh the page and try again. If the error persists contact us at "}
+        <Link href="https://www.codeday.org/contact">codeday.org/contact</Link>.
+      </Page>
+    );
+  }
   const missingInfo = [];
   if (!user.username) missingInfo.push('username');
   if (!user.givenName) missingInfo.push('givenName');
@@ -25,12 +31,11 @@ const Missing = ({ user, state, domain, token }) => {
   if (!user.displayNameFormat) missingInfo.push('displayNameFormat');
   if (!user.pronoun) missingInfo.push('pronoun');
   if (!user.acceptTos) missingInfo.push('acceptTos');
+  // eslint-disable-next-line sonarjs/no-collapsible-if
   if (user.roles) {
-    if (user.roles.find((role) => role.name === "Volunteer") && !user.phoneNumber) missingInfo.push('phoneNumber');
+    if (user.roles.find((role) => role.name === 'Volunteer') && !user.phoneNumber) missingInfo.push('phoneNumber');
     // if (!user.roles.find((role) => role.name === "Volunteer")) missingInfo.push('volunteer');
   }
-
-  const [changes, setChanges] = useState({});
 
   return (
     <Page>
@@ -38,14 +43,13 @@ const Missing = ({ user, state, domain, token }) => {
         <title>Missing Info ~ CodeDay Account</title>
       </Head>
       <Text marginTop={0}>
-        <PartyPopper /> Welcome to the CodeDay community, <Text as="span" bold>{user.name}!</Text> We just need a
-            few more pieces of information from you:
-          </Text>
-      <ProfileBlocks
-        user={merge(user, changes)}
-        onChange={setChanges}
-        fields={missingInfo}
-      />
+        🎉 Welcome to the CodeDay community,{' '}
+        <Text as="span" bold>
+          {user.name}!
+        </Text>{' '}
+        We just need a few more pieces of information from you:
+      </Text>
+      <ProfileBlocks user={merge(user, changes)} onChange={setChanges} fields={missingInfo} />
       <Box textAlign="right">
         <SubmitUpdates
           required={missingInfo.filter((e) => e !== 'volunteer')}
@@ -69,21 +73,20 @@ Missing.propTypes = {
 };
 export default Missing;
 
-
 export const getServerSideProps = async ({ req, query }) => {
   const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
   const jwtUser = userFromJwt(query.token);
-  
-  const token = jwt.sign({ id: jwtUser?.sub }, serverRuntimeConfig.auth0.hookSharedSecret)
-  let { result, error } = await tryAuthenticatedApiQuery(MissingUserQuery, { id: jwtUser.sub }, token);
-  if (error) return { props: {} }
+
+  const token = jwt.sign({ id: jwtUser?.sub }, serverRuntimeConfig.auth0.hookSharedSecret);
+  const { result, error } = await tryAuthenticatedApiQuery(MissingUserQuery, { id: jwtUser.sub }, token);
+  if (error) return { props: {} };
   return {
     props: {
       user: result.account.getUser,
       state: query.state,
       domain: publicRuntimeConfig?.auth0?.domain,
-      token: token,
-      cookies: req.headers.cookie ?? "",
+      token,
+      cookies: req.headers.cookie,
     },
   };
 };

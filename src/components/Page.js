@@ -1,12 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Door from '@codeday/topocons/Icon/Door';
-import Button from '@codeday/topo/Atom/Button';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Divider from '@codeday/topo/Atom/Divider';
-import { CodeDay } from '@codeday/topo/Atom/Logo';
-import Text from '@codeday/topo/Atom/Text';
-import Header, { Menu, SiteLogo } from '@codeday/topo/Organism/Header';
+import { Door } from '@codeday/topocons';
+import { Button, Box, Divider, Text, CodeDay, Link } from '@codeday/topo/Atom';
+import { Header, Menu, SiteLogo } from '@codeday/topo/Organism';
 import { signOut } from 'next-auth/client';
 import getConfig from 'next/config';
 
@@ -17,11 +13,11 @@ const Page = ({ children, isLoggedIn }) => {
     <Box margin="1rem auto" maxWidth="600px" width="100%" rounded="sm" borderWidth="1px" marginTop="4" padding={0}>
       <Box padding={3} margin={0}>
         <Header noPadding>
-          <SiteLogo >
+          <SiteLogo>
             <a href="https://www.codeday.org/">
               <CodeDay withText />
             </a>
-            <a href="/">
+            <Link href="/">
               <Text
                 as="span"
                 d="inline"
@@ -34,19 +30,25 @@ const Page = ({ children, isLoggedIn }) => {
                 bold
               >
                 Account
-                </Text>
-            </a>
+              </Text>
+            </Link>
           </SiteLogo>
           <Menu>
-            {isLoggedIn && <Button onClick={() => signOut({ callbackUrl: `${publicRuntimeConfig.appUrl}/logout` })}><Door /></Button>}
+            {isLoggedIn && (
+              <Button onClick={() => signOut({ callbackUrl: `${publicRuntimeConfig.appUrl}/logout` })}>
+                <Door />
+              </Button>
+            )}
           </Menu>
         </Header>
       </Box>
       <Divider marginTop={0} />
-      <Box padding={3} paddingBottom={5}>{children}</Box>
+      <Box padding={3} paddingBottom={5}>
+        {children}
+      </Box>
     </Box>
   );
-}
+};
 Page.propTypes = {
   isLoggedIn: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]).isRequired,
