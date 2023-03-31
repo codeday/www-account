@@ -4,9 +4,9 @@ mutation AddRole($code: String!) {
   }
 }
 
-query GetAccountProperties {
+query GetAccountProperties($id: ID!) {
   account {
-    getUser(where: {}) {
+    getUser(where: {id: $id}) {
       blocked
     }
   }

@@ -5,7 +5,7 @@ import { getSession, signIn } from 'next-auth/client';
 import jwt from 'jsonwebtoken';
 import Page from '../../components/Page';
 import { AddRole, GetAccountProperties } from './[code].gql';
-import { tryAuthenticatedApiQuery } from '../../util/api';
+import { tryAuthenticatedApiQuery, tryAuthenticatedServerApiQuery } from '../../util/api';
 
 export const getServerSideProps = async ({ req, params }) => {
   const session = await getSession({ req });
@@ -15,14 +15,20 @@ export const getServerSideProps = async ({ req, params }) => {
   }
 
   let success = false;
-  const token = jwt.sign({ id: session.user?.id }, process.env.AUTH0_HOOK_SHARED_SECRET);
-  const { result: propsResult, error: propsError } = await tryAuthenticatedApiQuery(GetAccountProperties, {}, token);
-
+  const serverToken = jwt.sign({ scopes: 'read:user' }, process.env.GRAPH_SECRET);
+  const { result: propsResult, error: propsError } = await tryAuthenticatedServerApiQuery(
+    GetAccountProperties,
+    { id: session.user.id },
+    serverToken,
+  );
+  // console.log(propsResult, propsError);
   const propsSuccessful = propsResult && !propsError;
   const blocked = propsResult?.account?.getUser?.blocked;
 
-  const { result, error } = await tryAuthenticatedApiQuery(AddRole, { code: params.code }, token);
+  const userToken = jwt.sign({ id: session.user?.id }, process.env.AUTH0_HOOK_SHARED_SECRET);
+  const { result, error } = await tryAuthenticatedApiQuery(AddRole, { code: params.code }, userToken);
   const addRoleSuccessful = result && !error;
+  
   if (addRoleSuccessful && propsSuccessful && !blocked) success = true;
 
   let errorMessage = 'An error occurred. Please log out and try again.';
