@@ -17,7 +17,7 @@ export default async (req, res) => {
     return;
   }
   const discordLink = discordApi.generateAuthUrl({
-    scope: ['identify', 'guilds', 'role_connections.write'],
+    scope: ['identify', 'guilds'],
     state: crypto.randomBytes(16).toString('hex'),
   });
   res.redirect(discordLink);

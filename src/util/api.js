@@ -28,17 +28,3 @@ export async function tryAuthenticatedServerApiQuery(gql, params, token) {
     return { error: err };
   }
 }
-
-export async function tryAuthenticatedAdminApiQuery(gql, params, token) {
-  const headers = {
-    'X-Account-Authorization': `Bearer ${token}`,
-  };
-
-  try {
-    return {
-      result: await apiFetch(print(gql), params || {}, token ? headers : {}),
-    };
-  } catch (err) {
-    return { error: err };
-  }
-}

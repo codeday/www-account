@@ -19,12 +19,3 @@ query CheckDiscordLinked($userId: ID!) {
     }
   }
 }
-
-mutation SetDiscordToken($where: AccountUserWhereInput!, $tokenInfo: AccountDiscordTokenInfoInput!) {
-  account {
-    setDiscordToken(
-      where: $where
-      tokenInfo: $tokenInfo
-    )
-  }
-}
