@@ -7,6 +7,7 @@ import merge from 'deepmerge';
 import jwt from 'jsonwebtoken';
 import { getSession, signIn } from 'next-auth/client';
 import { useColorMode } from '@codeday/topo/Theme';
+import { teamRoles } from '../roles';
 import SubmitUpdates from '../components/SubmitUpdates';
 import UserProperties from '../components/UserProperties';
 import { IndexUserQuery } from './index.gql';
@@ -64,7 +65,7 @@ export default function Home({ user, token, logIn }) {
           user.badges ? 'badges' : null,
           'phoneNumber',
           'bio',
-          user.roles.find((role) => role.name === 'Volunteer') ? 'title' : null,
+          user.roles.find((role) => teamRoles.includes(role)) ? 'title' : null,
           'discord',
         ]}
         onChange={setChanges}

@@ -5,6 +5,7 @@ import { Box, Text, Link } from '@codeday/topo/Atom';
 // import PartyPopper from '@codeday/topocons/Emoji/Objects/PartyPopper';
 import merge from 'deepmerge';
 import jwt from 'jsonwebtoken';
+import { teamRoles, featuredTeamRoles } from '../roles';
 import Page from '../components/Page';
 import ProfileBlocks from '../components/UserProperties';
 import SubmitUpdates from '../components/SubmitUpdates';
@@ -23,6 +24,7 @@ const Missing = ({ user, state, domain, token }) => {
       </Page>
     );
   }
+
   const missingInfo = [];
   if (!user.username) missingInfo.push('username');
   if (!user.givenName) missingInfo.push('givenName');
@@ -32,8 +34,13 @@ const Missing = ({ user, state, domain, token }) => {
   if (!user.acceptTos) missingInfo.push('acceptTos');
   // eslint-disable-next-line sonarjs/no-collapsible-if
   if (user.roles) {
-    if (user.roles.find((role) => role.name === 'Volunteer') && !user.phoneNumber) missingInfo.push('phoneNumber');
-    // if (!user.roles.find((role) => role.name === "Volunteer")) missingInfo.push('volunteer');
+    if (user.roles.find((role) => teamRoles.includes(role.name))) {
+      if (!user.phoneNumber) missingInfo.push('phoneNumber');
+      if (!user.title) missingInfo.push('title');
+    }
+    if (user.roles.find((role) => featuredTeamRoles.includes(role.name))) {
+      if (!user.bio) missingInfo.push('bio');
+    }
   }
 
   return (
