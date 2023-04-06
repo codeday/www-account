@@ -62,10 +62,9 @@ export default function Home({ user, token, logIn }) {
           'givenName',
           'displayNameFormat',
           'pronoun',
-          user.badges ? 'badges' : null,
-          'phoneNumber',
+          user.roles.find((role) => teamRoles.includes(role.name)) ? 'title' : null,
           'bio',
-          user.roles.find((role) => teamRoles.includes(role)) ? 'title' : null,
+          'phoneNumber',
           'discord',
         ]}
         onChange={setChanges}
