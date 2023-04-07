@@ -5,8 +5,8 @@ import { useToasts } from '@codeday/topo/utils';
 import { tryAuthenticatedApiQuery } from '../../util/api';
 import { UserPictureMutation } from './Picture.gql';
 
-const uploadPicture = async (file, token, id) => {
-  const { result, error } = await tryAuthenticatedApiQuery(UserPictureMutation, { id, upload: file }, token);
+const uploadPicture = async (file, token) => {
+  const { result, error } = await tryAuthenticatedApiQuery(UserPictureMutation, { upload: file }, token);
   return !error ? { url: result?.account?.uploadProfilePicture } : { error };
 };
 
@@ -67,7 +67,7 @@ const Picture = ({ user, onChange, token }) => {
                 info(`Your file is uploading.`);
               }
               try {
-                const result = await uploadPicture(file, token, user.id);
+                const result = await uploadPicture(file, token);
                 success('Picture uploaded!');
                 setPictureUrl(result.url);
               } catch (err) {
