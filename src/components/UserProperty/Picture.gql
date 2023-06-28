@@ -1,5 +1,5 @@
-mutation UserPictureMutation($upload: Upload!) {
+mutation UserPictureMutation($upload: Upload!, $id: ID!) {
   account {
-    uploadProfilePicture(upload: $upload)
+    uploadProfilePicture(upload: $upload, where: { id: $id })
   }
 }
