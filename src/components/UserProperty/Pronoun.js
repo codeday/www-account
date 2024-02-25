@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { TextInput, Radio, RadioGroup, Stack, Text, Link, FormControl, FormLabel } from '@codeday/topo/Atom';
+import { Box, TextInput, Radio, RadioGroup, Stack, Text, Link, FormControl, FormLabel, Flex } from '@codeday/topo/Atom';
 
 const CUSTOM = 'custom';
 const defaultPronouns = {
@@ -16,7 +16,7 @@ const Pronoun = ({ user, onChange }) => {
 
   const [selection, setSelection] = useState(previousWasCustom ? CUSTOM : previousPronoun);
   const [custom, setCustom] = useState(previousWasCustom ? previousPronoun : '');
-
+  const ref = React.useRef();
   const defaultRadios = Object.keys(defaultPronouns).map((k) => (
     <Radio key={k} value={k}>
       {defaultPronouns[k]}
@@ -24,14 +24,18 @@ const Pronoun = ({ user, onChange }) => {
   ));
 
   const customRadio = (
-    <Radio key={CUSTOM} value={CUSTOM}>
+    <Flex as="span" onClick={() => ref.current.click()}>
+      <Radio key={CUSTOM} value={CUSTOM} ref={ref}>
+        {' '}
+      </Radio>
       {custom || selection === CUSTOM ? (
         <TextInput
+          w="auto"
           value={custom}
           onChange={(e) => {
-            setSelection(CUSTOM);
             setCustom(e.target.value);
             onChange({ pronoun: e.target.value });
+            setSelection(CUSTOM);
           }}
         />
       ) : (
@@ -39,7 +43,7 @@ const Pronoun = ({ user, onChange }) => {
           (other)
         </Text>
       )}
-    </Radio>
+    </Flex>
   );
 
   return (
