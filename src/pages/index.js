@@ -66,6 +66,7 @@ export default function Home({ user, token, logIn }) {
           'bio',
           'phoneNumber',
           'discord',
+          'payoutsEligible',
         ]}
         onChange={setChanges}
       />

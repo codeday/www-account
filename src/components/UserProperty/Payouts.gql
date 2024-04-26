@@ -1,0 +1,15 @@
+query PayoutsEligibleQuery($id: ID!) {
+  account {
+    getUser (where: { id: $id }, fresh: true) {
+      payoutsEligible
+    }
+  }
+}
+
+query PayoutsDashboardLinkQuery ($id: ID!) {
+  account {
+    getUser (where: {id: $id}) {
+      payoutsDashboardLink
+    }
+  }
+}

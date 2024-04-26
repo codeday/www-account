@@ -11,6 +11,8 @@ query MissingUserQuery($id: ID!) {
       pronoun
       phoneNumber
       bio
+      payoutsEligible
+      title
       badges {
         id
         displayed

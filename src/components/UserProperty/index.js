@@ -10,8 +10,9 @@ import Title from './Title';
 import CodeOfConduct from './CodeOfConduct';
 import Badges from './Badges';
 import Discord from './Discord';
+import Payouts from './Payouts';
 
-export { Username, Picture, Name, DisplayName, Pronoun, Phone, Bio, Volunteer, Title, CodeOfConduct, Badges, Discord };
+export { Username, Picture, Name, DisplayName, Pronoun, Phone, Bio, Volunteer, Title, CodeOfConduct, Badges, Discord, Payouts };
 const allExports = [
   Username,
   Picture,
@@ -25,6 +26,7 @@ const allExports = [
   CodeOfConduct,
   Badges,
   Discord,
+  Payouts,
 ];
 
 const UserProperty = (fields) => {

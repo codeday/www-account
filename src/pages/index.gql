@@ -12,6 +12,7 @@ query IndexUserQuery {
       phoneNumber
       bio
       title
+      payoutsEligible
       badges {
         id
         displayed

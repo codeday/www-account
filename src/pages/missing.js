@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { Box, Text, Link } from '@codeday/topo/Atom';
 // import PartyPopper from '@codeday/topocons/Emoji/Objects/PartyPopper';
 import merge from 'deepmerge';
 import jwt from 'jsonwebtoken';
-import { teamRoles, featuredTeamRoles } from '../roles';
+import { teamRoles, featuredTeamRoles, payoutsEligibleRole } from '../roles';
 import Page from '../components/Page';
 import ProfileBlocks from '../components/UserProperties';
 import SubmitUpdates from '../components/SubmitUpdates';
@@ -14,7 +14,7 @@ import { tryAuthenticatedApiQuery } from '../util/api';
 import { MissingUserQuery } from './missing.gql';
 
 const Missing = ({ user, state, domain, token }) => {
-  const [changes, setChanges] = useState({});
+  const [changes, setChanges] = useReducer((_prev, arg) => ({ ..._prev, ...arg }), {});
 
   if (!user || !user.roles) {
     return (
@@ -34,6 +34,9 @@ const Missing = ({ user, state, domain, token }) => {
   if (!user.acceptTos) missingInfo.push('acceptTos');
   // eslint-disable-next-line sonarjs/no-collapsible-if
   if (user.roles) {
+    if (user.roles.find((role) => role.id === payoutsEligibleRole)) {
+      if (!user.payoutsEligible) missingInfo.push('payoutsEligible');
+    }
     if (user.roles.find((role) => teamRoles.includes(role.name))) {
       if (!user.phoneNumber) missingInfo.push('phoneNumber');
       if (!user.title) missingInfo.push('title');
@@ -55,7 +58,12 @@ const Missing = ({ user, state, domain, token }) => {
         </Text>{' '}
         We just need a few more pieces of information from you:
       </Text>
-      <ProfileBlocks user={merge(user, changes)} onChange={setChanges} fields={missingInfo} />
+      <ProfileBlocks
+        token={token}
+        user={merge(user, changes)}
+        onChange={setChanges}
+        fields={missingInfo}
+      />
       <Box textAlign="right">
         <SubmitUpdates
           required={missingInfo.filter((e) => e !== 'volunteer')}
@@ -67,7 +75,9 @@ const Missing = ({ user, state, domain, token }) => {
             // eslint-disable-next-line no-undef
             window.location.href = `https://${domain}/continue?state=${state}`;
           }}
-        />
+        >
+          Continue
+        </SubmitUpdates>
       </Box>
     </Page>
   );
@@ -91,7 +101,7 @@ export const getServerSideProps = async ({ req, query }) => {
       state: query.state,
       domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN,
       token,
-      cookies: req.headers.cookie,
+      cookies: req.headers.cookie || null,
     },
   };
 };

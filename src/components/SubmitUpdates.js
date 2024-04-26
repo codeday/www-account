@@ -17,21 +17,25 @@ const hasRequired = (required, user, changes) => {
   return missing.filter((res) => !res).length === 0;
 };
 
-const SubmitUpdates = ({ changes, user, required, onSubmit, token }) => {
+const SubmitUpdates = ({ changes, user, required, onSubmit, token, children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { success, error } = useToasts();
   const { _meta, ...cleanChanges } = changes;
+  const { payoutsEligible, ...eligibleChanges } = changes;
+
   return (
     <Button
       colorScheme="green"
-      isDisabled={!cleanChanges || Object.keys(cleanChanges).length === 0 || !hasRequired(required, user, cleanChanges)}
+      isDisabled={!changes || Object.keys(changes).length === 0 || !hasRequired(required, user, changes)}
       isLoading={isLoading}
       onClick={async () => {
         if (isLoading) return;
         setIsLoading(true);
         try {
-          await submitUserChanges(changes, token);
-          success('Changes Saved!');
+          if (eligibleChanges && Object.keys(eligibleChanges).length > 0) {
+            await submitUserChanges(eligibleChanges, token);
+            success('Changes Saved!');
+          }
           onSubmit();
         } catch (err) {
           error(err.errors ? err?.errors[0]?.data?.message : err?.message);
@@ -39,7 +43,7 @@ const SubmitUpdates = ({ changes, user, required, onSubmit, token }) => {
         setIsLoading(false);
       }}
     >
-      Update Profile
+      {children || 'Update Profile'}
     </Button>
   );
 };
